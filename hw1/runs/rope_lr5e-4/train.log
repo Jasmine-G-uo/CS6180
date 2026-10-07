@@ -1,0 +1,283 @@
+Overriding config with config/train_shakespeare_char.py:
+# train a miniature character-level shakespeare model
+# good for debugging and playing on macbooks and such
+
+out_dir = 'out-shakespeare-char'
+eval_interval = 250 # keep frequent because we'll overfit
+eval_iters = 200
+log_interval = 10 # don't print too too often
+
+# we expect to overfit on this small dataset, so only save when val improves
+always_save_checkpoint = False
+
+wandb_log = False # override via command line if you like
+wandb_project = 'shakespeare-char'
+wandb_run_name = 'mini-gpt'
+
+dataset = 'shakespeare_char'
+gradient_accumulation_steps = 1
+batch_size = 64
+block_size = 256 # context of up to 256 previous characters
+
+# baby GPT model :)
+n_layer = 6
+n_head = 6
+n_embd = 384
+dropout = 0.2
+
+learning_rate = 1e-3 # with baby networks can afford to go a bit higher
+max_iters = 5000
+lr_decay_iters = 5000 # make equal to max_iters usually
+min_lr = 1e-4 # learning_rate / 10 usually
+beta2 = 0.99 # make a bit bigger because number of tokens per iter is small
+
+warmup_iters = 100 # not super necessary potentially
+
+# on macbook also add
+# device = 'cpu'  # run on cpu only
+# compile = False # do not torch compile the model
+
+Overriding: device = cpu
+Overriding: compile = False
+Overriding: eval_iters = 200
+Overriding: log_interval = 10
+Overriding: block_size = 64
+Overriding: batch_size = 12
+Overriding: n_layer = 4
+Overriding: n_head = 4
+Overriding: n_embd = 128
+Overriding: max_iters = 2000
+Overriding: lr_decay_iters = 2000
+Overriding: dropout = 0.0
+Overriding: learning_rate = 0.0005
+Overriding: out_dir = runs/rope_lr5e-4
+Overriding: pos_type = rope
+tokens per iteration will be: 768
+found vocab_size = 65 (inside data/shakespeare_char/meta.pkl)
+Initializing a new model from scratch
+number of parameters: 0.80M
+train.py:203: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=(dtype == 'float16'))
+.venv/lib/python3.13/site-packages/torch/cuda/amp/grad_scaler.py:31: UserWarning: torch.cuda.amp.GradScaler is enabled, but CUDA is not available.  Disabling.
+  super().__init__(
+num decayed parameter tensors: 17, with 794,752 parameters
+num non-decayed parameter tensors: 9, with 1,152 parameters
+using fused AdamW: False
+step 0: train loss 4.1996, val loss 4.1984
+iter 0: loss 4.1948, time 2097.79ms, mfu -100.00%
+iter 10: loss 3.8638, time 16.58ms, mfu 0.08%
+iter 20: loss 3.6036, time 15.98ms, mfu 0.08%
+iter 30: loss 3.4138, time 16.33ms, mfu 0.08%
+iter 40: loss 3.2590, time 16.71ms, mfu 0.08%
+iter 50: loss 3.1144, time 16.42ms, mfu 0.08%
+iter 60: loss 3.0307, time 17.01ms, mfu 0.08%
+iter 70: loss 2.8771, time 16.37ms, mfu 0.08%
+iter 80: loss 2.8037, time 16.61ms, mfu 0.08%
+iter 90: loss 2.6664, time 16.56ms, mfu 0.08%
+iter 100: loss 2.6392, time 16.39ms, mfu 0.08%
+iter 110: loss 2.6055, time 16.39ms, mfu 0.08%
+iter 120: loss 2.5447, time 16.47ms, mfu 0.08%
+iter 130: loss 2.5028, time 16.28ms, mfu 0.08%
+iter 140: loss 2.4595, time 16.55ms, mfu 0.08%
+iter 150: loss 2.5161, time 16.41ms, mfu 0.08%
+iter 160: loss 2.4098, time 16.66ms, mfu 0.08%
+iter 170: loss 2.3468, time 16.46ms, mfu 0.08%
+iter 180: loss 2.3815, time 16.11ms, mfu 0.08%
+iter 190: loss 2.3937, time 16.60ms, mfu 0.08%
+iter 200: loss 2.3530, time 16.55ms, mfu 0.08%
+iter 210: loss 2.3947, time 16.58ms, mfu 0.08%
+iter 220: loss 2.3083, time 16.66ms, mfu 0.08%
+iter 230: loss 2.3172, time 16.71ms, mfu 0.08%
+iter 240: loss 2.2432, time 16.38ms, mfu 0.08%
+step 250: train loss 2.2754, val loss 2.2712
+saving checkpoint to runs/rope_lr5e-4
+iter 250: loss 2.2949, time 2231.92ms, mfu 0.07%
+iter 260: loss 2.1794, time 16.83ms, mfu 0.07%
+iter 270: loss 2.2211, time 16.21ms, mfu 0.07%
+iter 280: loss 2.2083, time 16.58ms, mfu 0.07%
+iter 290: loss 2.2228, time 16.65ms, mfu 0.07%
+iter 300: loss 2.1516, time 17.08ms, mfu 0.07%
+iter 310: loss 2.2316, time 16.38ms, mfu 0.07%
+iter 320: loss 2.1749, time 16.55ms, mfu 0.07%
+iter 330: loss 2.1376, time 16.84ms, mfu 0.07%
+iter 340: loss 2.1859, time 16.58ms, mfu 0.07%
+iter 350: loss 2.1355, time 16.95ms, mfu 0.07%
+iter 360: loss 2.1519, time 16.54ms, mfu 0.07%
+iter 370: loss 2.0427, time 16.38ms, mfu 0.07%
+iter 380: loss 2.2071, time 17.00ms, mfu 0.07%
+iter 390: loss 2.3349, time 16.94ms, mfu 0.07%
+iter 400: loss 2.1673, time 17.22ms, mfu 0.07%
+iter 410: loss 2.0623, time 16.55ms, mfu 0.07%
+iter 420: loss 2.0633, time 16.74ms, mfu 0.07%
+iter 430: loss 2.2653, time 16.67ms, mfu 0.08%
+iter 440: loss 2.0008, time 23.46ms, mfu 0.07%
+iter 450: loss 2.1154, time 16.61ms, mfu 0.07%
+iter 460: loss 2.1229, time 16.80ms, mfu 0.07%
+iter 470: loss 2.0648, time 16.87ms, mfu 0.07%
+iter 480: loss 2.0078, time 17.34ms, mfu 0.07%
+iter 490: loss 2.0551, time 16.81ms, mfu 0.07%
+step 500: train loss 2.0654, val loss 2.1282
+saving checkpoint to runs/rope_lr5e-4
+iter 500: loss 2.1165, time 2167.33ms, mfu 0.07%
+iter 510: loss 2.0590, time 16.74ms, mfu 0.07%
+iter 520: loss 2.0877, time 16.54ms, mfu 0.07%
+iter 530: loss 2.0112, time 16.42ms, mfu 0.07%
+iter 540: loss 2.0065, time 16.72ms, mfu 0.07%
+iter 550: loss 2.0400, time 16.95ms, mfu 0.07%
+iter 560: loss 2.1081, time 16.64ms, mfu 0.07%
+iter 570: loss 2.0092, time 16.72ms, mfu 0.07%
+iter 580: loss 2.0209, time 16.96ms, mfu 0.07%
+iter 590: loss 2.0916, time 16.28ms, mfu 0.07%
+iter 600: loss 2.1189, time 17.16ms, mfu 0.07%
+iter 610: loss 1.9558, time 16.78ms, mfu 0.07%
+iter 620: loss 1.9138, time 17.07ms, mfu 0.07%
+iter 630: loss 1.9151, time 16.64ms, mfu 0.07%
+iter 640: loss 2.0166, time 16.72ms, mfu 0.07%
+iter 650: loss 1.9972, time 16.65ms, mfu 0.07%
+iter 660: loss 1.9752, time 16.54ms, mfu 0.07%
+iter 670: loss 1.9481, time 16.41ms, mfu 0.07%
+iter 680: loss 1.9408, time 17.11ms, mfu 0.07%
+iter 690: loss 1.9570, time 16.83ms, mfu 0.07%
+iter 700: loss 2.0066, time 16.54ms, mfu 0.07%
+iter 710: loss 1.9992, time 17.18ms, mfu 0.07%
+iter 720: loss 1.9274, time 16.87ms, mfu 0.07%
+iter 730: loss 1.9615, time 16.66ms, mfu 0.08%
+iter 740: loss 1.9385, time 16.45ms, mfu 0.08%
+step 750: train loss 1.9467, val loss 2.0320
+saving checkpoint to runs/rope_lr5e-4
+iter 750: loss 1.8839, time 2156.69ms, mfu 0.07%
+iter 760: loss 1.9463, time 16.87ms, mfu 0.07%
+iter 770: loss 1.9314, time 16.90ms, mfu 0.07%
+iter 780: loss 1.8941, time 16.56ms, mfu 0.07%
+iter 790: loss 1.8677, time 16.63ms, mfu 0.07%
+iter 800: loss 2.0178, time 16.97ms, mfu 0.07%
+iter 810: loss 1.9079, time 16.54ms, mfu 0.07%
+iter 820: loss 1.8829, time 16.59ms, mfu 0.07%
+iter 830: loss 1.9084, time 16.71ms, mfu 0.07%
+iter 840: loss 1.8493, time 17.09ms, mfu 0.07%
+iter 850: loss 1.9195, time 16.65ms, mfu 0.07%
+iter 860: loss 1.9666, time 16.75ms, mfu 0.07%
+iter 870: loss 1.8641, time 16.57ms, mfu 0.07%
+iter 880: loss 1.7750, time 16.57ms, mfu 0.07%
+iter 890: loss 1.9396, time 16.51ms, mfu 0.07%
+iter 900: loss 1.9299, time 17.24ms, mfu 0.07%
+iter 910: loss 1.7910, time 16.85ms, mfu 0.07%
+iter 920: loss 2.0462, time 17.01ms, mfu 0.07%
+iter 930: loss 1.9454, time 16.98ms, mfu 0.07%
+iter 940: loss 1.9064, time 16.88ms, mfu 0.07%
+iter 950: loss 1.8745, time 16.46ms, mfu 0.07%
+iter 960: loss 1.8696, time 16.59ms, mfu 0.08%
+iter 970: loss 1.8506, time 16.43ms, mfu 0.08%
+iter 980: loss 1.8383, time 16.47ms, mfu 0.08%
+iter 990: loss 1.8818, time 16.58ms, mfu 0.08%
+step 1000: train loss 1.8674, val loss 1.9616
+saving checkpoint to runs/rope_lr5e-4
+iter 1000: loss 1.8436, time 2228.89ms, mfu 0.07%
+iter 1010: loss 1.9579, time 16.27ms, mfu 0.07%
+iter 1020: loss 1.8502, time 16.56ms, mfu 0.07%
+iter 1030: loss 1.8550, time 16.90ms, mfu 0.07%
+iter 1040: loss 1.7883, time 16.76ms, mfu 0.07%
+iter 1050: loss 1.8660, time 16.55ms, mfu 0.07%
+iter 1060: loss 1.8900, time 16.64ms, mfu 0.07%
+iter 1070: loss 1.9372, time 17.09ms, mfu 0.07%
+iter 1080: loss 1.9005, time 16.64ms, mfu 0.07%
+iter 1090: loss 1.7988, time 16.86ms, mfu 0.07%
+iter 1100: loss 1.7895, time 16.68ms, mfu 0.07%
+iter 1110: loss 1.7937, time 20.60ms, mfu 0.07%
+iter 1120: loss 1.8083, time 16.79ms, mfu 0.07%
+iter 1130: loss 1.8711, time 16.79ms, mfu 0.07%
+iter 1140: loss 1.8843, time 16.83ms, mfu 0.07%
+iter 1150: loss 1.8491, time 16.90ms, mfu 0.07%
+iter 1160: loss 1.7384, time 16.51ms, mfu 0.07%
+iter 1170: loss 1.7347, time 18.80ms, mfu 0.07%
+iter 1180: loss 1.8587, time 16.75ms, mfu 0.07%
+iter 1190: loss 1.7920, time 16.59ms, mfu 0.07%
+iter 1200: loss 1.7020, time 16.37ms, mfu 0.07%
+iter 1210: loss 1.7404, time 16.39ms, mfu 0.07%
+iter 1220: loss 1.6810, time 17.02ms, mfu 0.07%
+iter 1230: loss 1.8456, time 20.81ms, mfu 0.07%
+iter 1240: loss 1.7913, time 16.73ms, mfu 0.07%
+step 1250: train loss 1.7906, val loss 1.9189
+saving checkpoint to runs/rope_lr5e-4
+iter 1250: loss 1.7264, time 2319.41ms, mfu 0.07%
+iter 1260: loss 1.6579, time 17.02ms, mfu 0.07%
+iter 1270: loss 1.7429, time 17.24ms, mfu 0.07%
+iter 1280: loss 1.8276, time 17.57ms, mfu 0.07%
+iter 1290: loss 1.7421, time 17.10ms, mfu 0.07%
+iter 1300: loss 1.7182, time 16.99ms, mfu 0.07%
+iter 1310: loss 1.7082, time 17.00ms, mfu 0.07%
+iter 1320: loss 1.7811, time 16.95ms, mfu 0.07%
+iter 1330: loss 1.7416, time 16.75ms, mfu 0.07%
+iter 1340: loss 1.6572, time 16.84ms, mfu 0.07%
+iter 1350: loss 1.8556, time 16.91ms, mfu 0.07%
+iter 1360: loss 1.7709, time 16.91ms, mfu 0.07%
+iter 1370: loss 1.7371, time 16.36ms, mfu 0.07%
+iter 1380: loss 1.7698, time 16.88ms, mfu 0.07%
+iter 1390: loss 1.8564, time 16.52ms, mfu 0.07%
+iter 1400: loss 1.7852, time 16.45ms, mfu 0.07%
+iter 1410: loss 1.7029, time 16.66ms, mfu 0.07%
+iter 1420: loss 1.7101, time 16.69ms, mfu 0.07%
+iter 1430: loss 1.7790, time 16.63ms, mfu 0.07%
+iter 1440: loss 1.8403, time 16.72ms, mfu 0.07%
+iter 1450: loss 1.8050, time 17.12ms, mfu 0.07%
+iter 1460: loss 1.7644, time 16.53ms, mfu 0.07%
+iter 1470: loss 1.7889, time 16.57ms, mfu 0.08%
+iter 1480: loss 1.7457, time 16.75ms, mfu 0.08%
+iter 1490: loss 1.7352, time 16.79ms, mfu 0.08%
+step 1500: train loss 1.7299, val loss 1.8886
+saving checkpoint to runs/rope_lr5e-4
+iter 1500: loss 1.5889, time 2180.62ms, mfu 0.07%
+iter 1510: loss 1.7061, time 16.71ms, mfu 0.07%
+iter 1520: loss 1.8348, time 17.21ms, mfu 0.07%
+iter 1530: loss 1.6652, time 16.59ms, mfu 0.07%
+iter 1540: loss 1.8187, time 16.91ms, mfu 0.07%
+iter 1550: loss 1.6941, time 20.95ms, mfu 0.07%
+iter 1560: loss 1.8315, time 20.64ms, mfu 0.07%
+iter 1570: loss 1.7140, time 20.47ms, mfu 0.07%
+iter 1580: loss 1.6351, time 17.08ms, mfu 0.07%
+iter 1590: loss 1.6600, time 16.84ms, mfu 0.07%
+iter 1600: loss 1.7422, time 21.76ms, mfu 0.07%
+iter 1610: loss 1.7516, time 27.51ms, mfu 0.07%
+iter 1620: loss 1.6477, time 17.12ms, mfu 0.07%
+iter 1630: loss 1.6963, time 16.89ms, mfu 0.07%
+iter 1640: loss 1.7646, time 16.82ms, mfu 0.07%
+iter 1650: loss 1.7505, time 16.97ms, mfu 0.07%
+iter 1660: loss 1.6846, time 16.98ms, mfu 0.07%
+iter 1670: loss 1.7329, time 16.87ms, mfu 0.07%
+iter 1680: loss 1.7558, time 17.03ms, mfu 0.07%
+iter 1690: loss 1.6810, time 19.67ms, mfu 0.07%
+iter 1700: loss 1.5954, time 17.05ms, mfu 0.07%
+iter 1710: loss 1.7450, time 16.85ms, mfu 0.07%
+iter 1720: loss 1.7142, time 16.85ms, mfu 0.07%
+iter 1730: loss 1.7427, time 16.99ms, mfu 0.07%
+iter 1740: loss 1.6072, time 16.99ms, mfu 0.07%
+step 1750: train loss 1.7071, val loss 1.8724
+saving checkpoint to runs/rope_lr5e-4
+iter 1750: loss 1.6687, time 2229.04ms, mfu 0.07%
+iter 1760: loss 1.6677, time 17.43ms, mfu 0.07%
+iter 1770: loss 1.6218, time 15.90ms, mfu 0.07%
+iter 1780: loss 1.7040, time 17.30ms, mfu 0.07%
+iter 1790: loss 1.6383, time 16.77ms, mfu 0.07%
+iter 1800: loss 1.8187, time 19.15ms, mfu 0.07%
+iter 1810: loss 1.7637, time 20.46ms, mfu 0.07%
+iter 1820: loss 1.7936, time 16.95ms, mfu 0.07%
+iter 1830: loss 1.6711, time 16.50ms, mfu 0.07%
+iter 1840: loss 1.7416, time 16.68ms, mfu 0.07%
+iter 1850: loss 1.7736, time 16.74ms, mfu 0.07%
+iter 1860: loss 1.6469, time 19.70ms, mfu 0.07%
+iter 1870: loss 1.7038, time 17.35ms, mfu 0.07%
+iter 1880: loss 1.8309, time 17.22ms, mfu 0.07%
+iter 1890: loss 1.6434, time 16.93ms, mfu 0.07%
+iter 1900: loss 1.8074, time 19.21ms, mfu 0.07%
+iter 1910: loss 1.7026, time 16.49ms, mfu 0.07%
+iter 1920: loss 1.7452, time 17.14ms, mfu 0.07%
+iter 1930: loss 1.7346, time 17.01ms, mfu 0.07%
+iter 1940: loss 1.7797, time 17.24ms, mfu 0.07%
+iter 1950: loss 1.7084, time 17.27ms, mfu 0.07%
+iter 1960: loss 1.6380, time 17.28ms, mfu 0.07%
+iter 1970: loss 1.6850, time 17.39ms, mfu 0.07%
+iter 1980: loss 1.6375, time 16.94ms, mfu 0.07%
+iter 1990: loss 1.6738, time 17.25ms, mfu 0.07%
+step 2000: train loss 1.6832, val loss 1.8606
+saving checkpoint to runs/rope_lr5e-4
+iter 2000: loss 1.6555, time 2346.10ms, mfu 0.07%

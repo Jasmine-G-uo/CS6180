@@ -1,0 +1,283 @@
+Overriding config with config/train_shakespeare_char.py:
+# train a miniature character-level shakespeare model
+# good for debugging and playing on macbooks and such
+
+out_dir = 'out-shakespeare-char'
+eval_interval = 250 # keep frequent because we'll overfit
+eval_iters = 200
+log_interval = 10 # don't print too too often
+
+# we expect to overfit on this small dataset, so only save when val improves
+always_save_checkpoint = False
+
+wandb_log = False # override via command line if you like
+wandb_project = 'shakespeare-char'
+wandb_run_name = 'mini-gpt'
+
+dataset = 'shakespeare_char'
+gradient_accumulation_steps = 1
+batch_size = 64
+block_size = 256 # context of up to 256 previous characters
+
+# baby GPT model :)
+n_layer = 6
+n_head = 6
+n_embd = 384
+dropout = 0.2
+
+learning_rate = 1e-3 # with baby networks can afford to go a bit higher
+max_iters = 5000
+lr_decay_iters = 5000 # make equal to max_iters usually
+min_lr = 1e-4 # learning_rate / 10 usually
+beta2 = 0.99 # make a bit bigger because number of tokens per iter is small
+
+warmup_iters = 100 # not super necessary potentially
+
+# on macbook also add
+# device = 'cpu'  # run on cpu only
+# compile = False # do not torch compile the model
+
+Overriding: device = cpu
+Overriding: compile = False
+Overriding: eval_iters = 200
+Overriding: log_interval = 10
+Overriding: block_size = 64
+Overriding: batch_size = 12
+Overriding: n_layer = 4
+Overriding: n_head = 4
+Overriding: n_embd = 128
+Overriding: max_iters = 2000
+Overriding: lr_decay_iters = 2000
+Overriding: dropout = 0.0
+Overriding: learning_rate = 0.004
+Overriding: out_dir = runs/gqa_lr4e-3
+Overriding: n_kv_head = 2
+tokens per iteration will be: 768
+found vocab_size = 65 (inside data/shakespeare_char/meta.pkl)
+Initializing a new model from scratch
+number of parameters: 0.73M
+train.py:203: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=(dtype == 'float16'))
+.venv/lib/python3.13/site-packages/torch/cuda/amp/grad_scaler.py:31: UserWarning: torch.cuda.amp.GradScaler is enabled, but CUDA is not available.  Disabling.
+  super().__init__(
+num decayed parameter tensors: 18, with 737,408 parameters
+num non-decayed parameter tensors: 9, with 1,152 parameters
+using fused AdamW: False
+step 0: train loss 4.1958, val loss 4.1940
+iter 0: loss 4.1979, time 1457.43ms, mfu -100.00%
+iter 10: loss 3.5451, time 12.53ms, mfu 0.09%
+iter 20: loss 3.1068, time 12.74ms, mfu 0.09%
+iter 30: loss 2.7613, time 12.72ms, mfu 0.09%
+iter 40: loss 2.6844, time 13.18ms, mfu 0.09%
+iter 50: loss 2.6755, time 13.02ms, mfu 0.09%
+iter 60: loss 2.6235, time 12.80ms, mfu 0.09%
+iter 70: loss 2.5911, time 12.80ms, mfu 0.09%
+iter 80: loss 2.5580, time 13.26ms, mfu 0.09%
+iter 90: loss 2.6003, time 12.91ms, mfu 0.09%
+iter 100: loss 2.5902, time 12.55ms, mfu 0.09%
+iter 110: loss 2.5202, time 12.84ms, mfu 0.09%
+iter 120: loss 2.4557, time 12.91ms, mfu 0.09%
+iter 130: loss 2.5421, time 12.81ms, mfu 0.09%
+iter 140: loss 2.4645, time 13.17ms, mfu 0.09%
+iter 150: loss 2.5124, time 12.90ms, mfu 0.09%
+iter 160: loss 2.4732, time 12.59ms, mfu 0.09%
+iter 170: loss 2.4794, time 13.08ms, mfu 0.09%
+iter 180: loss 2.5611, time 12.94ms, mfu 0.09%
+iter 190: loss 2.5544, time 12.62ms, mfu 0.09%
+iter 200: loss 2.4456, time 13.29ms, mfu 0.09%
+iter 210: loss 2.4714, time 12.79ms, mfu 0.09%
+iter 220: loss 2.4569, time 13.02ms, mfu 0.09%
+iter 230: loss 2.4469, time 12.68ms, mfu 0.09%
+iter 240: loss 2.4988, time 13.43ms, mfu 0.09%
+step 250: train loss 2.4520, val loss 2.4664
+saving checkpoint to runs/gqa_lr4e-3
+iter 250: loss 2.3994, time 1760.18ms, mfu 0.08%
+iter 260: loss 2.4869, time 15.23ms, mfu 0.08%
+iter 270: loss 2.4999, time 15.74ms, mfu 0.08%
+iter 280: loss 2.4638, time 15.27ms, mfu 0.08%
+iter 290: loss 2.4069, time 14.81ms, mfu 0.08%
+iter 300: loss 2.3315, time 15.15ms, mfu 0.08%
+iter 310: loss 2.3873, time 15.37ms, mfu 0.08%
+iter 320: loss 2.3702, time 15.08ms, mfu 0.08%
+iter 330: loss 2.4274, time 15.20ms, mfu 0.08%
+iter 340: loss 2.4181, time 15.46ms, mfu 0.08%
+iter 350: loss 2.3063, time 15.01ms, mfu 0.08%
+iter 360: loss 2.3114, time 14.57ms, mfu 0.08%
+iter 370: loss 2.3136, time 14.71ms, mfu 0.08%
+iter 380: loss 2.3261, time 15.75ms, mfu 0.08%
+iter 390: loss 2.2274, time 15.23ms, mfu 0.08%
+iter 400: loss 2.2386, time 14.69ms, mfu 0.08%
+iter 410: loss 2.1981, time 15.62ms, mfu 0.08%
+iter 420: loss 2.1881, time 15.47ms, mfu 0.08%
+iter 430: loss 2.1444, time 14.80ms, mfu 0.08%
+iter 440: loss 2.0534, time 16.44ms, mfu 0.08%
+iter 450: loss 2.1940, time 15.20ms, mfu 0.08%
+iter 460: loss 2.1315, time 15.09ms, mfu 0.08%
+iter 470: loss 2.2737, time 15.87ms, mfu 0.08%
+iter 480: loss 2.0976, time 15.42ms, mfu 0.08%
+iter 490: loss 2.1673, time 15.15ms, mfu 0.08%
+step 500: train loss 2.1443, val loss 2.1731
+saving checkpoint to runs/gqa_lr4e-3
+iter 500: loss 2.2119, time 1803.58ms, mfu 0.07%
+iter 510: loss 2.1412, time 14.57ms, mfu 0.07%
+iter 520: loss 2.1049, time 15.55ms, mfu 0.07%
+iter 530: loss 2.1223, time 19.49ms, mfu 0.07%
+iter 540: loss 2.1600, time 15.95ms, mfu 0.07%
+iter 550: loss 2.0553, time 14.23ms, mfu 0.07%
+iter 560: loss 2.0620, time 15.12ms, mfu 0.07%
+iter 570: loss 1.9306, time 15.52ms, mfu 0.07%
+iter 580: loss 2.0208, time 14.80ms, mfu 0.07%
+iter 590: loss 2.0435, time 20.83ms, mfu 0.07%
+iter 600: loss 2.0298, time 15.98ms, mfu 0.07%
+iter 610: loss 2.0339, time 15.07ms, mfu 0.07%
+iter 620: loss 2.0967, time 15.27ms, mfu 0.07%
+iter 630: loss 2.0102, time 14.37ms, mfu 0.07%
+iter 640: loss 1.9434, time 16.59ms, mfu 0.07%
+iter 650: loss 2.0136, time 15.84ms, mfu 0.07%
+iter 660: loss 2.0990, time 15.19ms, mfu 0.07%
+iter 670: loss 1.9948, time 14.88ms, mfu 0.07%
+iter 680: loss 1.9947, time 15.10ms, mfu 0.07%
+iter 690: loss 1.8691, time 15.56ms, mfu 0.07%
+iter 700: loss 1.9668, time 15.47ms, mfu 0.07%
+iter 710: loss 2.0195, time 15.21ms, mfu 0.08%
+iter 720: loss 1.9442, time 15.49ms, mfu 0.08%
+iter 730: loss 2.0649, time 16.27ms, mfu 0.07%
+iter 740: loss 1.9254, time 15.16ms, mfu 0.08%
+step 750: train loss 1.9621, val loss 2.0574
+saving checkpoint to runs/gqa_lr4e-3
+iter 750: loss 1.9870, time 1865.83ms, mfu 0.07%
+iter 760: loss 1.9623, time 16.21ms, mfu 0.07%
+iter 770: loss 1.9888, time 15.89ms, mfu 0.07%
+iter 780: loss 1.8820, time 16.91ms, mfu 0.07%
+iter 790: loss 1.9069, time 16.21ms, mfu 0.07%
+iter 800: loss 1.8829, time 15.22ms, mfu 0.07%
+iter 810: loss 1.8227, time 19.18ms, mfu 0.07%
+iter 820: loss 1.8483, time 15.28ms, mfu 0.07%
+iter 830: loss 1.8568, time 16.12ms, mfu 0.07%
+iter 840: loss 1.9370, time 14.77ms, mfu 0.07%
+iter 850: loss 2.0366, time 16.21ms, mfu 0.07%
+iter 860: loss 1.8921, time 15.40ms, mfu 0.07%
+iter 870: loss 2.0077, time 15.49ms, mfu 0.07%
+iter 880: loss 1.8666, time 15.57ms, mfu 0.07%
+iter 890: loss 1.8989, time 15.16ms, mfu 0.07%
+iter 900: loss 1.9106, time 15.46ms, mfu 0.07%
+iter 910: loss 1.8678, time 14.72ms, mfu 0.07%
+iter 920: loss 1.7699, time 18.43ms, mfu 0.07%
+iter 930: loss 1.9549, time 15.68ms, mfu 0.07%
+iter 940: loss 1.8752, time 15.31ms, mfu 0.07%
+iter 950: loss 1.8621, time 16.32ms, mfu 0.07%
+iter 960: loss 1.7952, time 15.59ms, mfu 0.07%
+iter 970: loss 1.8935, time 15.41ms, mfu 0.07%
+iter 980: loss 1.9170, time 15.61ms, mfu 0.07%
+iter 990: loss 1.8734, time 15.86ms, mfu 0.07%
+step 1000: train loss 1.8396, val loss 1.9730
+saving checkpoint to runs/gqa_lr4e-3
+iter 1000: loss 1.7974, time 1882.81ms, mfu 0.07%
+iter 1010: loss 1.7981, time 16.08ms, mfu 0.07%
+iter 1020: loss 1.8204, time 15.19ms, mfu 0.07%
+iter 1030: loss 1.9535, time 16.35ms, mfu 0.07%
+iter 1040: loss 1.7980, time 20.45ms, mfu 0.07%
+iter 1050: loss 1.8545, time 18.29ms, mfu 0.07%
+iter 1060: loss 1.7944, time 15.53ms, mfu 0.07%
+iter 1070: loss 1.7951, time 15.47ms, mfu 0.07%
+iter 1080: loss 1.8954, time 16.16ms, mfu 0.07%
+iter 1090: loss 1.7942, time 16.01ms, mfu 0.07%
+iter 1100: loss 1.7469, time 16.33ms, mfu 0.07%
+iter 1110: loss 1.8198, time 14.79ms, mfu 0.07%
+iter 1120: loss 1.7469, time 15.56ms, mfu 0.07%
+iter 1130: loss 1.8804, time 15.54ms, mfu 0.07%
+iter 1140: loss 1.7118, time 15.35ms, mfu 0.07%
+iter 1150: loss 1.8500, time 16.42ms, mfu 0.07%
+iter 1160: loss 1.6965, time 17.19ms, mfu 0.07%
+iter 1170: loss 1.7189, time 15.61ms, mfu 0.07%
+iter 1180: loss 1.7341, time 15.08ms, mfu 0.07%
+iter 1190: loss 1.6896, time 15.20ms, mfu 0.07%
+iter 1200: loss 1.6971, time 15.52ms, mfu 0.07%
+iter 1210: loss 1.8157, time 15.54ms, mfu 0.07%
+iter 1220: loss 1.6857, time 15.35ms, mfu 0.07%
+iter 1230: loss 1.5864, time 15.86ms, mfu 0.07%
+iter 1240: loss 1.8621, time 16.09ms, mfu 0.07%
+step 1250: train loss 1.7334, val loss 1.8872
+saving checkpoint to runs/gqa_lr4e-3
+iter 1250: loss 1.7263, time 1906.11ms, mfu 0.07%
+iter 1260: loss 1.7811, time 16.13ms, mfu 0.07%
+iter 1270: loss 1.8843, time 15.35ms, mfu 0.07%
+iter 1280: loss 1.8408, time 16.10ms, mfu 0.07%
+iter 1290: loss 1.6321, time 17.00ms, mfu 0.07%
+iter 1300: loss 1.8097, time 15.88ms, mfu 0.07%
+iter 1310: loss 1.6882, time 16.89ms, mfu 0.07%
+iter 1320: loss 1.7463, time 15.40ms, mfu 0.07%
+iter 1330: loss 1.7146, time 16.05ms, mfu 0.07%
+iter 1340: loss 1.6760, time 14.76ms, mfu 0.07%
+iter 1350: loss 1.8400, time 15.25ms, mfu 0.07%
+iter 1360: loss 1.6450, time 15.74ms, mfu 0.07%
+iter 1370: loss 1.7213, time 15.38ms, mfu 0.07%
+iter 1380: loss 1.6253, time 15.40ms, mfu 0.07%
+iter 1390: loss 1.7167, time 15.83ms, mfu 0.07%
+iter 1400: loss 1.7391, time 17.23ms, mfu 0.07%
+iter 1410: loss 1.6005, time 16.15ms, mfu 0.07%
+iter 1420: loss 1.6194, time 19.78ms, mfu 0.07%
+iter 1430: loss 1.7325, time 15.68ms, mfu 0.07%
+iter 1440: loss 1.6366, time 16.11ms, mfu 0.07%
+iter 1450: loss 1.5673, time 16.24ms, mfu 0.07%
+iter 1460: loss 1.6493, time 14.95ms, mfu 0.07%
+iter 1470: loss 1.6974, time 16.43ms, mfu 0.07%
+iter 1480: loss 1.6470, time 19.58ms, mfu 0.07%
+iter 1490: loss 1.7039, time 23.33ms, mfu 0.07%
+step 1500: train loss 1.6703, val loss 1.8371
+saving checkpoint to runs/gqa_lr4e-3
+iter 1500: loss 1.6283, time 2181.76ms, mfu 0.06%
+iter 1510: loss 1.7420, time 17.24ms, mfu 0.06%
+iter 1520: loss 1.6096, time 16.38ms, mfu 0.06%
+iter 1530: loss 1.6033, time 16.61ms, mfu 0.06%
+iter 1540: loss 1.6423, time 16.88ms, mfu 0.06%
+iter 1550: loss 1.6863, time 16.71ms, mfu 0.07%
+iter 1560: loss 1.6611, time 16.37ms, mfu 0.07%
+iter 1570: loss 1.5900, time 16.17ms, mfu 0.07%
+iter 1580: loss 1.6071, time 16.11ms, mfu 0.07%
+iter 1590: loss 1.6571, time 16.09ms, mfu 0.07%
+iter 1600: loss 1.5978, time 16.80ms, mfu 0.07%
+iter 1610: loss 1.6107, time 16.63ms, mfu 0.07%
+iter 1620: loss 1.6048, time 15.99ms, mfu 0.07%
+iter 1630: loss 1.7215, time 16.98ms, mfu 0.07%
+iter 1640: loss 1.6003, time 16.76ms, mfu 0.07%
+iter 1650: loss 1.6874, time 17.10ms, mfu 0.07%
+iter 1660: loss 1.6714, time 16.90ms, mfu 0.07%
+iter 1670: loss 1.6335, time 16.56ms, mfu 0.07%
+iter 1680: loss 1.5217, time 16.64ms, mfu 0.07%
+iter 1690: loss 1.5571, time 17.48ms, mfu 0.07%
+iter 1700: loss 1.6380, time 16.44ms, mfu 0.07%
+iter 1710: loss 1.4712, time 16.80ms, mfu 0.07%
+iter 1720: loss 1.6447, time 16.06ms, mfu 0.07%
+iter 1730: loss 1.6498, time 16.96ms, mfu 0.07%
+iter 1740: loss 1.6889, time 16.84ms, mfu 0.07%
+step 1750: train loss 1.6249, val loss 1.7904
+saving checkpoint to runs/gqa_lr4e-3
+iter 1750: loss 1.5612, time 1992.11ms, mfu 0.06%
+iter 1760: loss 1.7092, time 17.16ms, mfu 0.06%
+iter 1770: loss 1.6380, time 16.27ms, mfu 0.06%
+iter 1780: loss 1.6202, time 16.30ms, mfu 0.07%
+iter 1790: loss 1.6529, time 16.90ms, mfu 0.07%
+iter 1800: loss 1.5947, time 16.15ms, mfu 0.07%
+iter 1810: loss 1.4994, time 18.65ms, mfu 0.07%
+iter 1820: loss 1.5463, time 26.08ms, mfu 0.06%
+iter 1830: loss 1.7680, time 17.11ms, mfu 0.06%
+iter 1840: loss 1.5586, time 16.39ms, mfu 0.07%
+iter 1850: loss 1.5884, time 17.53ms, mfu 0.07%
+iter 1860: loss 1.6366, time 17.20ms, mfu 0.07%
+iter 1870: loss 1.6486, time 21.76ms, mfu 0.06%
+iter 1880: loss 1.6890, time 16.68ms, mfu 0.07%
+iter 1890: loss 1.6816, time 16.53ms, mfu 0.07%
+iter 1900: loss 1.5818, time 16.93ms, mfu 0.07%
+iter 1910: loss 1.5198, time 16.78ms, mfu 0.07%
+iter 1920: loss 1.6266, time 17.23ms, mfu 0.07%
+iter 1930: loss 1.5666, time 16.69ms, mfu 0.07%
+iter 1940: loss 1.7335, time 18.59ms, mfu 0.07%
+iter 1950: loss 1.5618, time 16.50ms, mfu 0.07%
+iter 1960: loss 1.6610, time 16.66ms, mfu 0.07%
+iter 1970: loss 1.5181, time 16.59ms, mfu 0.07%
+iter 1980: loss 1.5978, time 17.01ms, mfu 0.07%
+iter 1990: loss 1.6255, time 16.09ms, mfu 0.07%
+step 2000: train loss 1.5994, val loss 1.7590
+saving checkpoint to runs/gqa_lr4e-3
+iter 2000: loss 1.6356, time 1980.52ms, mfu 0.06%

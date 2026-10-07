@@ -1,0 +1,7 @@
+*.pt
+*.bin
+*.pkl
+input.txt
+__pycache__/
+.venv/
+.DS_Store
