@@ -1,0 +1,8 @@
+NVIDIA A100-SXM4-80GB
+2.8.0+cu128 NVIDIA A100-SXM4-80GB ['sm_70', 'sm_75', 'sm_80', 'sm_86', 'sm_90', 'sm_100', 'sm_120']
+13:54:27 start baseline
+13:56:50 done  baseline  step 5000: train loss 0.6265, val loss 1.6949
+13:56:50 start rmsnorm
+13:58:54 done  rmsnorm  step 5000: train loss 0.6199, val loss 1.7061
+13:58:54 start swiglu
+14:01:01 done  swiglu  step 5000: train loss 0.5283, val loss 1.8786

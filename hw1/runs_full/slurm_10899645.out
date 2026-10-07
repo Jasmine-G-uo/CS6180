@@ -1,0 +1,26 @@
+NVIDIA A100-SXM4-80GB
+2.8.0+cu128 NVIDIA A100-SXM4-80GB ['sm_70', 'sm_75', 'sm_80', 'sm_86', 'sm_90', 'sm_100', 'sm_120']
+14:07:01 start baseline lr=5e-4
+14:10:11 done  baseline lr=5e-4  step 5000: train loss 0.7764, val loss 1.6024
+14:10:12 start rmsnorm lr=5e-4
+14:13:03 done  rmsnorm lr=5e-4  step 5000: train loss 0.7724, val loss 1.6190
+14:13:03 start swiglu lr=5e-4
+14:16:16 done  swiglu lr=5e-4  step 5000: train loss 0.6652, val loss 1.7368
+14:16:16 start nope lr=5e-4
+14:20:21 done  nope lr=5e-4  step 5000: train loss 1.1073, val loss 1.5544
+14:20:21 start rope lr=5e-4
+14:31:01 done  rope lr=5e-4  step 5000: train loss 0.6468, val loss 1.6507
+14:31:02 start gqa lr=5e-4
+14:34:22 done  gqa lr=5e-4  step 5000: train loss 0.8313, val loss 1.5799
+14:34:23 start baseline lr=2e-3
+14:38:24 done  baseline lr=2e-3  step 5000: train loss 0.6199, val loss 1.6901
+14:38:24 start rmsnorm lr=2e-3
+14:43:16 done  rmsnorm lr=2e-3  step 5000: train loss 0.6104, val loss 1.7076
+14:43:17 start swiglu lr=2e-3
+14:46:36 done  swiglu lr=2e-3  step 5000: train loss 0.6268, val loss 1.7382
+14:46:37 start nope lr=2e-3
+14:51:11 done  nope lr=2e-3  step 5000: train loss 1.1169, val loss 1.5902
+14:51:11 start rope lr=2e-3
+14:54:24 done  rope lr=2e-3  step 5000: train loss 0.5486, val loss 1.7449
+14:54:25 start gqa lr=2e-3
+slurmstepd: error: *** JOB 10899645 ON d1028 CANCELLED AT 2026-10-07T14:55:34 DUE TO TIME LIMIT ***

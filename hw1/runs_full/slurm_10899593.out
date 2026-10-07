@@ -1,0 +1,8 @@
+NVIDIA A100-SXM4-80GB
+2.8.0+cu128 NVIDIA A100-SXM4-80GB ['sm_70', 'sm_75', 'sm_80', 'sm_86', 'sm_90', 'sm_100', 'sm_120']
+14:01:40 start nope
+14:03:47 done  nope  step 5000: train loss 1.1186, val loss 1.6091
+14:03:47 start rope
+14:06:07 done  rope  step 5000: train loss 0.5436, val loss 1.7454
+14:06:07 start gqa
+14:08:14 done  gqa  step 5000: train loss 0.6229, val loss 1.6872
